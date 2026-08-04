@@ -5,7 +5,12 @@ from app.api.router import api_router
 from app.core.config import settings
 from app.core.lifespan import lifespan
 from app.core.logging import setup_logging
+from fastapi.exceptions import RequestValidationError
 
+from app.core.exceptions import (
+    global_exception_handler,
+    validation_exception_handler,
+)
 setup_logging()
 
 app = FastAPI(
@@ -14,7 +19,15 @@ app = FastAPI(
     version=settings.APP_VERSION,
     lifespan=lifespan,
 )
+app.add_exception_handler(
+    RequestValidationError,
+    validation_exception_handler,
+)
 
+app.add_exception_handler(
+    Exception,
+    global_exception_handler,
+)
 # CORS
 app.add_middleware(
     CORSMiddleware,
