@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models.user import User
@@ -8,16 +9,14 @@ class AuthRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def get_user_by_username(
-        self,
-        username: str,
-    ) -> User | None:
+    def get_by_username(self, username: str) -> User | None:
 
-        return self.db.query(User).filter(User.username == username).first()
+        stmt = select(User).where(User.username == username)
 
-    def get_user_by_id(
-        self,
-        user_id: int,
-    ) -> User | None:
+        return self.db.execute(stmt).scalar_one_or_none()
 
-        return self.db.query(User).filter(User.id == user_id).first()
+    def get_by_id(self, user_id: int) -> User | None:
+
+        stmt = select(User).where(User.id == user_id)
+
+        return self.db.execute(stmt).scalar_one_or_none()

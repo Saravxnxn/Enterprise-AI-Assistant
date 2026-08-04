@@ -27,15 +27,14 @@ def get_current_user(
 
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Token",
+            detail="Invalid token",
         ) from err
 
     repository = AuthRepository(db)
 
-    user = repository.get_user_by_id(user_id)
+    user = repository.get_by_id(user_id)
 
     if user is None:
-
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User not found",
