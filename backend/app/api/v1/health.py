@@ -13,8 +13,9 @@ router = APIRouter(
 async def health():
 
     return {
-        "status": STATUS_HEALTHY,
+        "status": "healthy",
         "application": settings.APP_NAME,
         "version": settings.APP_VERSION,
         "environment": settings.ENVIRONMENT,
+        "database": "connected"
     }

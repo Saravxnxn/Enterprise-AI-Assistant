@@ -18,7 +18,13 @@ class Settings(BaseSettings):
     LOG_LEVEL: str
 
     API_V1_PREFIX: str
-
+    DB_SERVER: str
+    DB_PORT: int
+    DB_NAME: str
+    DB_USERNAME: str
+    DB_PASSWORD: str
+    DB_DRIVER: str
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=True,
