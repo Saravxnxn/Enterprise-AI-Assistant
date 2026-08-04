@@ -2,18 +2,18 @@ import bcrypt
 
 
 class PasswordHasher:
+    @staticmethod
+    def hash_password(password: str) -> str:
+        password_bytes = password.encode("utf-8")
+        salt = bcrypt.gensalt(rounds=12)
+        return bcrypt.hashpw(password_bytes, salt).decode("utf-8")
 
     @staticmethod
-    def hash(password: str) -> str:
-        pwd_bytes = password.encode("utf-8")
-        salt = bcrypt.gensalt()
-        return bcrypt.hashpw(pwd_bytes, salt).decode("utf-8")
-
-    @staticmethod
-    def verify(
+    def verify_password(
         plain_password: str,
         hashed_password: str,
     ) -> bool:
-        pwd_bytes = plain_password.encode("utf-8")
-        hash_bytes = hashed_password.encode("utf-8")
-        return bcrypt.checkpw(pwd_bytes, hash_bytes)
+        return bcrypt.checkpw(
+            plain_password.encode("utf-8"),
+            hashed_password.encode("utf-8"),
+        )
