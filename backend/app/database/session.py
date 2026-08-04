@@ -14,9 +14,7 @@ connection_string = (
     "TrustServerCertificate=yes;"
 )
 
-DATABASE_URL = (
-    f"mssql+pyodbc:///?odbc_connect={quote_plus(connection_string)}"
-)
+DATABASE_URL = f"mssql+pyodbc:///?odbc_connect={quote_plus(connection_string)}"
 
 engine = create_engine(
     DATABASE_URL,

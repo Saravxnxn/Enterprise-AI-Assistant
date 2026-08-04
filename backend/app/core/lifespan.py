@@ -3,8 +3,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from sqlalchemy import text
 
-from app.database import engine
 from app.core.logging import logger
+from app.database import engine
 
 
 @asynccontextmanager

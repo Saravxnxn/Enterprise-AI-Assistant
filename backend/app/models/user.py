@@ -3,8 +3,8 @@ from datetime import datetime
 from sqlalchemy import DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.database.base import Base
 from app.core.constants import USER_STATUS_ACTIVE
+from app.database.base import Base
 
 
 class User(Base):
