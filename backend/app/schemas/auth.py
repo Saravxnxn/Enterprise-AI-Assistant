@@ -14,7 +14,7 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
     full_name: str
-    is_active: bool
+    status: str
 
 
 class LoginResponse(BaseModel):

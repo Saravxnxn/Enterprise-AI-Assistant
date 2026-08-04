@@ -1,21 +1,13 @@
 from datetime import datetime
 
-from sqlalchemy import Boolean, DateTime, Integer, String
+from sqlalchemy import DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database.base import Base
+from app.core.constants import USER_STATUS_ACTIVE
 
 
 class User(Base):
-    """
-    User Entity
-
-    Represents a system user.
-
-    Authentication, Chat History,
-    Documents, Memory and AI conversations
-    will all reference this table.
-    """
 
     __tablename__ = "users"
 
@@ -44,23 +36,36 @@ class User(Base):
         nullable=False,
     )
 
-    password_hash: Mapped[str] = mapped_column(
+    password: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
     )
 
-    is_active: Mapped[bool] = mapped_column(
-        Boolean,
-        default=True,
+    status: Mapped[str] = mapped_column(
+        String(20),
+        default=USER_STATUS_ACTIVE,
+        nullable=False,
     )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow,
+        nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow,
         onupdate=datetime.utcnow,
+        nullable=False,
+    )
+
+    created_by: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
+    updated_by: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
     )
