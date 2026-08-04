@@ -20,4 +20,7 @@ class UserResponse(BaseModel):
 class LoginResponse(BaseModel):
     access_token: str
     token_type: str
-    user: UserResponse
+    user: UserResponse  
+
+class TokenData(BaseModel):
+    username: str | None = None
