@@ -1,9 +1,11 @@
 """
-Import all SQLAlchemy models here.
+Import every SQLAlchemy model here.
 
-Example:
+Alembic imports this file to discover models.
+"""
 
 from app.models.user import User
 
-This allows Alembic to discover models later.
-"""
+__all__ = [
+    "User",
+]
