@@ -65,3 +65,20 @@ class DocumentRepository:
         self.db.refresh(document)
 
         return document
+
+    def update_embedding_info(
+        self,
+        document,
+        model_name: str,
+        vector_count: int,
+    ):
+
+        document.embedding_model = model_name
+
+        document.vector_count = vector_count
+
+        self.db.commit()
+
+        self.db.refresh(document)
+
+        return document
