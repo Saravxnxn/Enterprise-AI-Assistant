@@ -13,6 +13,7 @@ class MemoryService:
         self,
         conversation_id: int | None,
         user_id: int,
+        first_message: str,
     ):
 
         if conversation_id:
@@ -22,8 +23,10 @@ class MemoryService:
             if conversation:
                 return conversation
 
+        title = " ".join(first_message.split()[:6])
+
         return self.repository.create_conversation(
-            title="New Conversation",
+            title=title,
             user_id=user_id,
         )
 
@@ -57,3 +60,28 @@ class MemoryService:
     ):
 
         return self.repository.get_messages(conversation_id)
+
+    def list_conversations(self):
+        return self.repository.get_all()
+
+    def get_conversation(
+        self,
+        conversation_id: int,
+    ):
+        return self.repository.get_by_id(conversation_id)
+
+    def rename_conversation(
+        self,
+        conversation,
+        title: str,
+    ):
+        return self.repository.update_title(
+            conversation,
+            title,
+        )
+
+    def delete_conversation(
+        self,
+        conversation,
+    ):
+        self.repository.delete(conversation)

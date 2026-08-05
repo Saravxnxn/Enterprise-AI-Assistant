@@ -1,15 +1,17 @@
+from app.ai.prompts.manager import PromptManager
+
+
 class MemoryManager:
 
     @staticmethod
     def build_messages(history, current_message: str):
 
+        system_prompt = PromptManager.load("enterprise_assistant")
+
         messages = [
             {
                 "role": "system",
-                "content": (
-                    "You are Enterprise AI Assistant. "
-                    "Be professional, concise and helpful."
-                ),
+                "content": system_prompt,
             }
         ]
 

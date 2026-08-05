@@ -32,6 +32,7 @@ def chat(
     conversation = memory_service.get_or_create_conversation(
         request.conversation_id,
         user_id,
+        request.message,
     )
 
     memory_service.save_user_message(
