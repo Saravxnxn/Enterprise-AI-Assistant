@@ -82,3 +82,16 @@ class DocumentRepository:
         self.db.refresh(document)
 
         return document
+
+    def update_embedding_status(
+        self,
+        document,
+    ):
+
+        document.processing_status = "EMBEDDED"
+
+        self.db.commit()
+
+        self.db.refresh(document)
+
+        return document

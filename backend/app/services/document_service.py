@@ -12,12 +12,18 @@ from app.repositories.document_chunk_repository import (
 from app.repositories.document_content_repository import (
     DocumentContentRepository,
 )
+from app.repositories.document_embedding_repository import (
+    DocumentEmbeddingRepository,
+)
 from app.repositories.document_repository import DocumentRepository
 from app.services.document_chunk_service import (
     DocumentChunkService,
 )
 from app.services.document_content_service import (
     DocumentContentService,
+)
+from app.services.document_embedding_service import (
+    DocumentEmbeddingService,
 )
 
 
@@ -114,6 +120,20 @@ class DocumentService:
             document,
             "CHUNKED",
         )
+
+        embedding_service = DocumentEmbeddingService(
+            DocumentEmbeddingRepository(self.repository.db)
+        )
+
+        embedding_service.create_embeddings(chunks)
+
+        self.repository.update_embedding_info(
+            document,
+            model_name="all-MiniLM-L6-v2",
+            vector_count=len(chunks),
+        )
+
+        self.repository.update_embedding_status(document)
 
         return document
 
