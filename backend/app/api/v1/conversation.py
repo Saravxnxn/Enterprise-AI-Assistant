@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.database.session import get_db
 from app.repositories.conversation_repository import ConversationRepository
-from app.schemas.conversation import RenameConversationRequest
+from app.schemas.conversation import ConversationResponse, RenameConversationRequest
+from app.schemas.message import MessageResponse
 from app.schemas.response import success_response
 from app.services.conversation_service import ConversationService
 
@@ -24,7 +25,7 @@ def get_all(
 
     return success_response(
         message="Conversation List",
-        data=conversations,
+        data=[ConversationResponse.model_validate(c) for c in conversations],
     )
 
 
@@ -48,7 +49,7 @@ def get_messages(
 
     return success_response(
         message="Conversation",
-        data=messages,
+        data=[MessageResponse.model_validate(m) for m in messages],
     )
 
 
@@ -76,7 +77,7 @@ def rename(
 
     return success_response(
         message="Conversation Updated",
-        data=conversation,
+        data=ConversationResponse.model_validate(conversation),
     )
 
 
