@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import faiss
@@ -7,6 +8,8 @@ import numpy as np
 class VectorStoreManager:
 
     INDEX_PATH = Path("storage/faiss/document.index")
+
+    MAPPING_PATH = Path("storage/faiss/mapping.json")
 
     DIMENSION = 384
 
@@ -25,9 +28,23 @@ class VectorStoreManager:
 
             self.index = faiss.IndexFlatIP(self.DIMENSION)
 
+        if self.MAPPING_PATH.exists():
+
+            with open(
+                self.MAPPING_PATH,
+                encoding="utf-8",
+            ) as file:
+
+                self.mapping = json.load(file)
+
+        else:
+
+            self.mapping = {}
+
     def add_vectors(
         self,
         vectors: list[list[float]],
+        chunk_ids,
     ):
 
         array = np.array(
@@ -35,7 +52,25 @@ class VectorStoreManager:
             dtype=np.float32,
         )
 
+        start = self.index.ntotal
+
         self.index.add(array)
+
+        for i, chunk_id in enumerate(chunk_ids):
+
+            self.mapping[str(start + i)] = chunk_id
+
+        with open(
+            self.MAPPING_PATH,
+            "w",
+            encoding="utf-8",
+        ) as file:
+
+            json.dump(
+                self.mapping,
+                file,
+                indent=4,
+            )
 
         faiss.write_index(
             self.index,
@@ -59,3 +94,24 @@ class VectorStoreManager:
         )
 
         return distances, indices
+
+
+def get_chunk_ids(
+    self,
+    indices,
+):
+
+    chunk_ids = []
+
+    for index in indices:
+
+        if index == -1:
+            continue
+
+        chunk_id = self.mapping.get(str(index))
+
+        if chunk_id is not None:
+
+            chunk_ids.append(chunk_id)
+
+    return chunk_ids

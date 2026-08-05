@@ -33,3 +33,10 @@ class DocumentChunkRepository:
             .order_by(DocumentChunk.chunk_index)
             .all()
         )
+
+    def get_by_ids(
+        self,
+        ids: list[int],
+    ):
+
+        return self.db.query(DocumentChunk).filter(DocumentChunk.id.in_(ids)).all()
